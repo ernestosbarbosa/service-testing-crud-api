@@ -6,6 +6,7 @@ const port = process.env.PORT || 2345;
 
 app.use('/', ResourceController);
 app.enable('trust proxy');
+app.disable('etag');
 
 app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}/`);
