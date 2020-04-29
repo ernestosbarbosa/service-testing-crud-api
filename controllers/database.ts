@@ -14,7 +14,7 @@ const db = new loki('db.json');
 const mutex = new Mutex();
 const router: Router = Router();
 
-let uniqueId = 0;
+let uniqueId = 1;
 
 router.use(cors());
 router.use(bodyParser.json({ limit: '50mb' }));
@@ -76,7 +76,7 @@ router.post('/:resource', async (req: Request, res: Response) => {
 
 router.put('/:resource/:id', async (req: Request, res: Response) => {
     let resourceTable = db.addCollection(req.params.resource);
-    let resource = resourceTable.findOne({ id: parseInt(req.body.id) });
+    let resource = resourceTable.findOne({ id: parseInt(req.params.id) });
     if (!resource) {
         return res.status(404).send();
     }
@@ -100,7 +100,7 @@ router.delete('/:resource/:id', async (req: Request, res: Response) => {
     try {
         resourceTable.remove(resource);
         //console.log(`deleted ${req.params.resource}/${uniqueId}`)
-        return res.status(200).send();
+        return res.status(204).send();
     } finally {
         release();
     }
